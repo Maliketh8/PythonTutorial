@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Annotated
+from pydantic import Field
 
 class Post(BaseModel): #used to define and validate schema.
     title: str
@@ -34,7 +35,7 @@ class PostResponse(PostBase):
     owner_id: int
     owner: UserOut
     class Config:
-        orm_mode: True
+        orm_mode = True
 
 
 class UserLogin(BaseModel):
@@ -47,3 +48,7 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+
+class Vote(BaseModel):
+    post_id: int
+    dir: Annotated[int, Field(le=1)]
